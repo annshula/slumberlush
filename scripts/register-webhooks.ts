@@ -82,7 +82,6 @@ const WEBHOOK_ENDPOINTS: Record<string, string> = {
   ORDERS_PAID: "/api/webhooks/shopify-order-paid",
   PRODUCTS_CREATE: "/api/webhooks/products",
   PRODUCTS_UPDATE: "/api/webhooks/products",
-  PRODUCTS_DELETE: "/api/webhooks/products",
 };
 const REQUIRED_TOPICS = Object.keys(WEBHOOK_ENDPOINTS);
 
