@@ -130,7 +130,6 @@ export default async function HomePage() {
   const weighted = byHandle("weighted-calm-blanket");
   const slippers = byHandle("cloud-plush-slippers");
 
-  const heroPhoto = img(dreamer, "1_637adf0c");
   const texturePhoto = img(dreamer, "4_a5732080");
   const chairPhoto = img(dreamer, "3_-_2026-07-22T103154");
 
@@ -301,43 +300,45 @@ export default async function HomePage() {
         aria-labelledby="hero-title"
       >
         <div className="cloud-wash relative flex min-h-svh flex-col overflow-hidden lg:h-svh">
-          {/* Desktop: the film is the hero. Subject sits on the right of the
-              frame; the left is open sky, so the headline reads over it as-is.
-              Phones keep the still photo below until a portrait cut exists. */}
+          {/* The film is the hero. Desktop uses the landscape cut (subject on
+              the right, open sky on the left); phones use the portrait cut
+              (open sky on top, subject in the lower half). The copy sits in the
+              open sky, so it reads over the film as-is. */}
           <HeroVideo
-            src="/videos/hero-desktop.mp4"
-            poster="/videos/hero-desktop-poster.jpg"
-            className="absolute inset-0 hidden lg:block"
-            position="68% 50%"
+            className="absolute inset-0"
+            desktop={{
+              src: "/videos/hero-desktop.mp4?v=5",
+              poster: "/videos/hero-desktop-poster.jpg?v=5",
+              position: "35% 50%",
+            }}
+            mobile={{
+              src: "/videos/hero-mobile.mp4?v=5",
+              poster: "/videos/hero-mobile-poster.jpg?v=5",
+              position: "50% 60%",
+            }}
           />
           {/* A whisper of milk behind the copy only — keeps contrast on bright
               frames without touching the film itself. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,rgb(251_248_243/0.38)_0%,rgb(251_248_243/0.14)_36%,transparent_52%)] lg:block"
-          />
-          {/* Mobile: dusk light, warm at the horizon, cooling upward */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgb(229_234_242/0.55)_0%,transparent_45%,rgb(246_232_211/0.7)_100%)] lg:hidden"
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgb(251_248_243/0.4)_0%,rgb(251_248_243/0.34)_30%,rgb(251_248_243/0.22)_60%,transparent_82%)] sm:bg-[linear-gradient(180deg,rgb(251_248_243/0.42)_0%,rgb(251_248_243/0.12)_32%,transparent_46%)] lg:bg-[linear-gradient(90deg,rgb(251_248_243/0.38)_0%,rgb(251_248_243/0.14)_36%,transparent_52%)]"
           />
 
-          <div className="container-page relative grid flex-1 items-center gap-10 pt-[calc(var(--header-h)+2rem)] pb-12 lg:grid-cols-[1.1fr_1fr] lg:gap-8 lg:pt-[calc(var(--header-h)+1rem)] lg:pb-14">
-            <div className="hero-rise order-2 text-center lg:order-1 lg:text-left">
-              {/* <p className="eyebrow eyebrow-dot justify-center lg:justify-start">Sleep &amp; comfort, made slowly</p> */}
+          <div className="container-page relative grid flex-1 items-center gap-10 py-[calc(var(--header-h)+0.5rem)] sm:items-start sm:pt-[calc(var(--header-h)+2.5rem)] sm:pb-12 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-8 lg:pt-[calc(var(--header-h)+1rem)] lg:pb-14">
+            <div className="hero-rise text-center lg:text-left">
               <h1
                 id="hero-title"
-                className="mt-6 font-serif text-display-xl font-normal"
+                className="font-serif text-display-xl font-normal lg:mt-6"
               >
                 Sleep softer.
                 <br />
                 <em className="text-dusk-600">Live cozier.</em>
               </h1>
-              <p className="mx-auto mt-6 max-w-108 text-body text-ink-soft lg:mx-0">
+              <p className="mx-auto mt-4 max-w-[19.5rem] text-[0.95rem] leading-snug text-ink-soft sm:mt-6 sm:max-w-108 sm:text-body lg:mx-0">
                 Cloud-soft blankets, buttery sleepwear and plush little luxuries
                 for the hours between the day ending and the night beginning.
               </p>
-              <div className="mt-9 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 lg:justify-start">
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-x-7 gap-y-1 sm:mt-9 sm:gap-y-4 lg:justify-start">
                 <Link
                   href={dreamer?.href ?? "/collections/all"}
                   className="btn-primary"
@@ -345,13 +346,16 @@ export default async function HomePage() {
                   Meet the Cloud Dreamer
                   <Icon name="arrow-right" className="size-4" />
                 </Link>
-                <Link href="#hours" className="btn-quiet">
-                  Find your ritual
+                <Link href="#sleep-finder" className="btn-quiet font-bold [text-shadow:0_0_14px_rgb(251_248_243)] sm:font-semibold sm:[text-shadow:none]">
+                  Find your sleep style
                 </Link>
               </div>
-              <p className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-body-sm text-ink-soft lg:justify-start">
+              <p className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[0.82rem] font-semibold text-ink [text-shadow:0_1px_1px_rgb(251_248_243/0.55)] sm:mt-10 sm:gap-x-5 sm:gap-y-2 sm:text-body-sm sm:font-normal sm:text-ink-soft sm:[text-shadow:none] lg:justify-start">
                 <span className="flex items-center gap-2">
-                  <Stars value={storeRating.average} />
+                  <Stars
+                    value={storeRating.average}
+                    className="text-[#f6b400] [filter:drop-shadow(0_1px_1px_rgb(110_70_0/0.4))] sm:text-gold-500 sm:[filter:none]"
+                  />
                   <strong className="font-bold text-ink tabular-nums">
                     {storeRating.average.toFixed(1)}
                   </strong>
@@ -360,62 +364,10 @@ export default async function HomePage() {
                   </span>
                 </span>
                 <span className="flex items-center gap-2">
-                  <Icon name="moon" className="size-4 text-honey-500" />
-                  {site.returnWindowDays}-day sleep-on-it returns
+                  <Icon name="truck" className="size-4 text-honey-600" />
+                  Free &amp; fast worldwide delivery
                 </span>
               </p>
-            </div>
-
-            {/* Mobile: an arch framing the photo, a breathing moon behind it */}
-            <div className="relative order-1 lg:hidden">
-              <div className="relative mx-auto w-full max-w-[min(28rem,calc((100svh-var(--header-h)-7rem)*0.78))]">
-                <div
-                  aria-hidden="true"
-                  className="breathe absolute -top-[6%] -right-[10%] size-[42%] rounded-full bg-[radial-gradient(circle_at_35%_35%,#fffaf0_0%,var(--color-honey-100)_45%,rgb(237_211_173/0.4)_70%,transparent_72%)] blur-[1px]"
-                />
-                <div className="arch relative aspect-[4/5.2] overflow-hidden bg-oat shadow-drift">
-                  {heroPhoto && (
-                    <Image
-                      src={heroPhoto}
-                      alt="A woman wrapped in the Cloud Dreamer Blanket, smiling on a sofa"
-                      fill
-                      loading="eager"
-                      fetchPriority="high"
-                      sizes="86vw"
-                      className="object-cover"
-                    />
-                  )}
-                </div>
-                {texturePhoto && (
-                  <div className="float-slow absolute -bottom-5 -left-5 hidden size-28 overflow-hidden rounded-full shadow-float ring-[6px] ring-milk sm:block lg:-left-16 lg:size-36">
-                    <Image
-                      src={texturePhoto}
-                      alt=""
-                      fill
-                      sizes="144px"
-                      className="object-cover"
-                    />
-                  </div>
-                )}
-                {/* Breathing cue, synced to the moon (12 s: in 4 · hold 2 · out 6) */}
-                <p
-                  aria-hidden="true"
-                  className="glass absolute right-4 bottom-6 grid h-10 min-w-36 place-items-center rounded-full px-4 text-[0.78rem] font-bold tracking-[0.04em] text-ink sm:-right-6"
-                >
-                  <span className="breath-in col-start-1 row-start-1 flex items-center gap-2">
-                    <span className="size-1.5 rounded-full bg-dusk-500" />
-                    Breathe in…
-                  </span>
-                  <span className="breath-hold col-start-1 row-start-1 flex items-center gap-2 opacity-0">
-                    <span className="size-1.5 rounded-full bg-honey-500" />
-                    Hold…
-                  </span>
-                  <span className="breath-out col-start-1 row-start-1 flex items-center gap-2 opacity-0">
-                    <span className="size-1.5 rounded-full bg-dusk-300" />
-                    And let go…
-                  </span>
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -503,6 +455,7 @@ export default async function HomePage() {
       {/* ── 3 · How do you sleep? ───────────────────────────────────────── */}
       {finder.length > 0 && (
         <section
+          id="sleep-finder"
           className="section-y bg-dusk-50"
           aria-labelledby="finder-title"
         >

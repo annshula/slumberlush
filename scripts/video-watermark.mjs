@@ -25,11 +25,15 @@ if (!input || !fontPath) {
 
 const TEXT = "www.slumberlush.com";
 const INK = "#232a3d"; // site "dusk-900"
-const OPACITY = 0.62;
+const OPACITY = 0.3; // mild: present for those who look, invisible to those who don't
 const TRACKING = 0.14; // em
-const MARGIN_X = 0.034; // of video width
-const MARGIN_Y = 0.045; // of video height
-const WIDTH_SHARE = 0.135; // watermark width as a share of video width
+/* Landscape: bottom-left, inset enough to survive object-cover crops.
+   Portrait (phones): bottom-centre, larger share of the narrow frame so it
+   stays legible, and clear of the bottom crop on taller-than-9:16 screens. */
+const PRESETS = {
+  landscape: { marginX: 0.085, marginY: 0.09, widthShare: 0.12, centre: false },
+  portrait: { marginX: 0, marginY: 0.11, widthShare: 0.28, centre: true },
+};
 
 const probe = JSON.parse(
   execFileSync("ffprobe", ["-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height", "-of", "json", input], { encoding: "utf8" }),
@@ -51,7 +55,8 @@ const asc = (font.ascender * size) / font.unitsPerEm;
 const desc = (-font.descender * size) / font.unitsPerEm;
 const textH = asc + desc;
 
-const wmW = Math.round(W * WIDTH_SHARE);
+const preset = H > W ? PRESETS.portrait : PRESETS.landscape;
+const wmW = Math.round(W * preset.widthShare);
 const scale = wmW / textW;
 const wmH = Math.ceil(textH * scale);
 
@@ -63,8 +68,8 @@ const tmp = "design/video/_watermark.png";
 fs.mkdirSync("design/video", { recursive: true });
 await sharp(Buffer.from(svg), { density: 300 }).resize({ width: wmW }).png().toFile(tmp);
 
-const ox = Math.round(W * MARGIN_X);
-const oy = H - Math.round(H * MARGIN_Y) - wmH;
+const ox = preset.centre ? Math.round((W - wmW) / 2) : Math.round(W * preset.marginX);
+const oy = H - Math.round(H * preset.marginY) - wmH;
 
 fs.mkdirSync("public/videos", { recursive: true });
 const out = `public/videos/${outName}.mp4`;
