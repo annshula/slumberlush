@@ -346,7 +346,7 @@ export default async function HomePage() {
                   Meet the Cloud Dreamer
                   <Icon name="arrow-right" className="size-4" />
                 </Link>
-                <Link href="#sleep-finder" className="btn-quiet font-bold [text-shadow:0_0_14px_rgb(251_248_243)] sm:font-semibold sm:[text-shadow:none]">
+                <Link href="#sleep-finder" className="btn-quiet text-[0.82rem] font-semibold text-ink [text-shadow:0_1px_1px_rgb(251_248_243/0.55)] sm:text-[0.9rem] sm:[text-shadow:none]">
                   Find your sleep style
                 </Link>
               </div>
