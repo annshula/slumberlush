@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { Faq } from "@/components/content/Faq";
 import { NewsletterForm } from "@/components/content/NewsletterForm";
+import { HeroVideo } from "@/components/home/HeroVideo";
 import { SleepFinder, type FinderProfile } from "@/components/home/SleepFinder";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductVideoShowcase } from "@/components/product/ProductVideoShowcase";
@@ -300,10 +301,25 @@ export default async function HomePage() {
         aria-labelledby="hero-title"
       >
         <div className="cloud-wash relative flex min-h-svh flex-col overflow-hidden lg:h-svh">
-          {/* Dusk light: warm at the horizon, cooling upward */}
+          {/* Desktop: the film is the hero. Subject sits on the right of the
+              frame; the left is open sky, so the headline reads over it as-is.
+              Phones keep the still photo below until a portrait cut exists. */}
+          <HeroVideo
+            src="/videos/hero-desktop.mp4"
+            poster="/videos/hero-desktop-poster.jpg"
+            className="absolute inset-0 hidden lg:block"
+            position="68% 50%"
+          />
+          {/* A whisper of milk behind the copy only — keeps contrast on bright
+              frames without touching the film itself. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgb(229_234_242/0.55)_0%,transparent_45%,rgb(246_232_211/0.7)_100%)]"
+            className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,rgb(251_248_243/0.38)_0%,rgb(251_248_243/0.14)_36%,transparent_52%)] lg:block"
+          />
+          {/* Mobile: dusk light, warm at the horizon, cooling upward */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgb(229_234_242/0.55)_0%,transparent_45%,rgb(246_232_211/0.7)_100%)] lg:hidden"
           />
 
           <div className="container-page relative grid flex-1 items-center gap-10 pt-[calc(var(--header-h)+2rem)] pb-12 lg:grid-cols-[1.1fr_1fr] lg:gap-8 lg:pt-[calc(var(--header-h)+1rem)] lg:pb-14">
@@ -350,8 +366,8 @@ export default async function HomePage() {
               </p>
             </div>
 
-            {/* The window: an arch framing the photo, a breathing moon behind it */}
-            <div className="relative order-1 lg:order-2">
+            {/* Mobile: an arch framing the photo, a breathing moon behind it */}
+            <div className="relative order-1 lg:hidden">
               <div className="relative mx-auto w-full max-w-[min(28rem,calc((100svh-var(--header-h)-7rem)*0.78))]">
                 <div
                   aria-hidden="true"
@@ -363,9 +379,9 @@ export default async function HomePage() {
                       src={heroPhoto}
                       alt="A woman wrapped in the Cloud Dreamer Blanket, smiling on a sofa"
                       fill
-                      priority
+                      loading="eager"
                       fetchPriority="high"
-                      sizes="(min-width: 1024px) 448px, 86vw"
+                      sizes="86vw"
                       className="object-cover"
                     />
                   )}
