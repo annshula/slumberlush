@@ -1,0 +1,870 @@
+@import "tailwindcss" source("../");
+
+/* ==========================================================================
+   Slumberlush — "The Hours of Rest"
+   ---------------------------------------------------------------------------
+   The site is one night, read top to bottom: warm dusk light in the hero,
+   deepening blue through the evening, midnight in the brand sections, and a
+   sunrise in the footer.
+
+   Motifs
+   · The arch — a bedroom window at night. Photos that set a mood sit in
+     arches; everyday UI stays softly rounded.
+   · Pillows — buttons and chips are full pills with a soft inner highlight,
+     like plumped cushions.
+   · Breath — the one ambient animation is a slow 12 s breathing cycle
+     (in 4 s · hold 2 s · out 6 s). Everything else moves gently, or not at all
+     when reduced motion is requested.
+
+   Palette
+   · milk / cloud / oat / sand / linen — warm natural-fibre neutrals
+   · honey  — candlelight: small warm details, highlights, prices on sale
+   · dusk   — soft dusty blue: primary actions, links, the evening
+   · night  — deep midnight for the after-dark sections
+   · moon   — a pale lavender glow
+   Contrast ratios are against milk (#fbf8f3).
+   ========================================================================== */
+
+@theme {
+  /* Neutrals — natural fibres */
+  --color-milk: #fbf8f3; /* page */
+  --color-cloud: #fffdfa; /* raised surfaces */
+  --color-oat: #f3ece1; /* section wash */
+  --color-sand: #e9dfd0; /* tonal fills */
+  --color-linen: #ddcfba; /* deeper oat */
+  --color-paper: #ffffff;
+  --color-ink: #2b2620; /* warm charcoal, 14.6:1 */
+  --color-ink-soft: #625a50; /* 6.3:1 */
+  --color-ink-faint: #766d62; /* 4.8:1 */
+
+  /* Dusk — soft dusty blue (primary) */
+  --color-dusk-50: #f3f5f9;
+  --color-dusk-100: #e5eaf2;
+  --color-dusk-200: #cbd4e3;
+  --color-dusk-300: #a6b3cb;
+  --color-dusk-400: #8091b0;
+  --color-dusk-500: #627395;
+  --color-dusk-600: #4c5c7e; /* CTA, 6.7:1 */
+  --color-dusk-700: #3e4b68;
+  --color-dusk-800: #303a52;
+  --color-dusk-900: #232a3d;
+
+  /* Night — after dark */
+  --color-night-800: #1f2436;
+  --color-night-900: #171b2a;
+  --color-night-950: #10131f;
+
+  /* Honey — candlelight (detail) */
+  --color-honey-50: #fcf6ed;
+  --color-honey-100: #f6e8d3;
+  --color-honey-200: #edd3ad;
+  --color-honey-300: #ddb27c; /* decorative */
+  --color-honey-500: #c48a4e;
+  --color-honey-600: #96612c; /* text-safe, 5.1:1 */
+
+  /* Moon — pale lavender glow */
+  --color-moon-50: #f6f4fa;
+  --color-moon-100: #ece8f4;
+  --color-moon-300: #c9bfdd;
+
+  /* Stars — review scores only */
+  --color-gold-100: #f1e3c8;
+  --color-gold-500: #d4973a;
+
+  --color-success: #3f6b52;
+  --color-warning: #8a5a10;
+  --color-error: #a2422f;
+
+  /* Shared-component aliases. The cart, account and review components speak
+     in these names; they all resolve to the palette above. */
+  --color-ivory: var(--color-milk);
+  --color-porcelain: var(--color-cloud);
+  --color-cream: var(--color-oat);
+  --color-hairline: transparent;
+  --color-line: #d8ccba;
+  --color-blush: var(--color-honey-100);
+  --color-mint: var(--color-dusk-100);
+  --color-sage-50: var(--color-dusk-50);
+  --color-sage-100: var(--color-dusk-100);
+  --color-sage-200: var(--color-dusk-200);
+  --color-sage-300: var(--color-dusk-300);
+  --color-sage-400: var(--color-dusk-400);
+  --color-sage-500: var(--color-dusk-500);
+  --color-sage-600: var(--color-dusk-600);
+  --color-sage-700: var(--color-dusk-700);
+  --color-sage-800: var(--color-dusk-800);
+  --color-sage-900: var(--color-night-900);
+  --color-clay-50: var(--color-honey-50);
+  --color-clay-100: var(--color-honey-100);
+  --color-clay-200: var(--color-honey-200);
+  --color-clay-300: var(--color-honey-300);
+  --color-clay-600: var(--color-honey-600);
+
+  /* Type — two families, many voices */
+  --font-serif: var(--ff-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--ff-sans), ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --font-display: var(--font-serif);
+  --font-title: var(--font-serif);
+  --font-logo: var(--font-serif);
+  --font-script: var(--font-serif);
+  --font-pdp-heading: var(--font-serif);
+  --font-ui: var(--font-sans);
+  --font-headline: var(--font-sans);
+  --font-label: var(--font-sans);
+  --font-numeral: var(--font-sans);
+
+  --text-display-xl: clamp(3rem, 1.6rem + 5.6vw, 7rem);
+  --text-display-xl--line-height: 0.92;
+  --text-display-xl--letter-spacing: -0.02em;
+  --text-display: clamp(2.6rem, 1.7rem + 3.4vw, 4.9rem);
+  --text-display--line-height: 0.96;
+  --text-display--letter-spacing: -0.015em;
+  --text-heading-1: clamp(2.2rem, 1.7rem + 1.9vw, 3.4rem);
+  --text-heading-1--line-height: 1;
+  --text-heading-1--letter-spacing: -0.01em;
+  --text-heading-2: clamp(1.6rem, 1.35rem + 0.9vw, 2.15rem);
+  --text-heading-2--line-height: 1.08;
+  --text-heading-3: 1.4rem;
+  --text-heading-3--line-height: 1.2;
+  --text-body-lg: clamp(1.0625rem, 1rem + 0.3vw, 1.2rem);
+  --text-body-lg--line-height: 1.7;
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+  --text-body-sm: 0.9rem;
+  --text-body-sm--line-height: 1.6;
+  --text-eyebrow: 0.72rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-eyebrow--letter-spacing: 0.24em;
+  --text-caption: 0.78rem;
+  --text-caption--line-height: 1.5;
+  --text-caption--letter-spacing: 0.04em;
+  --text-heading-sm: clamp(1.4rem, 1.2rem + 0.7vw, 1.7rem);
+  --text-heading-sm--line-height: 1.15;
+  --text-heading: clamp(2.2rem, 1.6rem + 2vw, 3.3rem);
+  --text-heading--line-height: 1.02;
+  --text-heading-lg: clamp(2.6rem, 1.6rem + 3.6vw, 4.8rem);
+  --text-heading-lg--line-height: 0.98;
+  --text-subheading: 0.8125rem;
+  --text-subheading--letter-spacing: 0.14em;
+
+  /* Radii — soft everywhere, pills for things you press */
+  --radius-control: 999px;
+  --radius-card: 24px;
+  --radius-media: 36px;
+  --radius-panel: 24px;
+  --radius-tag: 999px;
+  --radius-btn: 999px;
+  --radius-pill: 999px;
+
+  /* Shadows — warm, diffuse, like lamplight */
+  --shadow-soft: 0 1px 2px rgb(60 44 26 / 0.04), 0 14px 34px -16px rgb(60 44 26 / 0.16);
+  --shadow-float: 0 2px 6px rgb(60 44 26 / 0.05), 0 28px 60px -26px rgb(60 44 26 / 0.28);
+  --shadow-drift: 0 40px 90px -40px rgb(35 26 15 / 0.45);
+  --shadow-lift: 0 18px 44px -18px rgb(35 26 15 / 0.3);
+  --shadow-inset: inset 0 1px 0 rgb(255 255 255 / 0.7);
+  --shadow-pillow: inset 0 1.5px 0 rgb(255 255 255 / 0.28), inset 0 -2px 6px rgb(0 0 0 / 0.12), 0 10px 24px -12px rgb(35 42 61 / 0.55);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-drift: cubic-bezier(0.37, 0, 0.18, 1);
+}
+
+:root {
+  --page-max: 1400px;
+  --gutter: 1.25rem;
+  --section-y: 5.5rem;
+  --header-h: 68px;
+  --announce-h: 36px;
+  --gallery-h: calc(100svh - var(--header-h) - var(--announce-h) - 9rem);
+  color-scheme: light;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 2rem;
+    --section-y: 8rem;
+    --header-h: 76px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --gutter: 3.5rem;
+    --section-y: 10rem;
+  }
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────── */
+
+@layer base {
+  /* The home hero carries the brand message, so the announcement bar is hidden there. */
+  body:has([data-home-hero]) [data-announcement] {
+    display: none;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: calc(var(--header-h) + 1.5rem);
+    scroll-padding-bottom: 6rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    background: var(--color-milk);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis-weight: none;
+  }
+  /* Brushed-cotton grain: a 2 KB SVG noise, fixed, barely there */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  body > * {
+    position: relative;
+    z-index: 1;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+  /* Cormorant's italic is the brand's voice — slightly heavier so it holds up. */
+  .font-serif em,
+  em.font-serif {
+    font-style: italic;
+    font-weight: 500;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  a,
+  button,
+  summary,
+  label[for],
+  [role="button"] {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-dusk-600);
+    outline-offset: 3px;
+    border-radius: 12px;
+  }
+  ::selection {
+    background: var(--color-honey-100);
+    color: var(--color-ink);
+  }
+  input,
+  select,
+  textarea {
+    font-size: max(16px, 1rem);
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+/* ── Layout helpers ───────────────────────────────────────────────────── */
+
+@utility container-page {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@utility section-y {
+  padding-block: var(--section-y);
+}
+
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+/* A tiny crescent before eyebrows */
+@utility eyebrow-dot {
+  &::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    box-shadow: inset -3px -1px 0 0 var(--color-honey-500);
+    flex: none;
+  }
+}
+
+/* The arch: a window at night. Fully round top, softly rounded base. */
+@utility arch {
+  border-radius: 999px 999px var(--radius-media) var(--radius-media);
+}
+@utility arch-sm {
+  border-radius: 999px 999px 20px 20px;
+}
+
+/* Surfaces — tonal, borderless */
+@utility surface {
+  background: var(--color-cloud);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+}
+@utility surface-float {
+  background: var(--color-cloud);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-float);
+}
+@utility surface-tint {
+  background: var(--color-oat);
+  border-radius: var(--radius-card);
+}
+@utility glass {
+  background: rgb(255 253 250 / 0.82);
+  backdrop-filter: saturate(1.3) blur(20px);
+  -webkit-backdrop-filter: saturate(1.3) blur(20px);
+  box-shadow: var(--shadow-soft), var(--shadow-inset);
+}
+@utility glass-dark {
+  background: rgb(23 27 42 / 0.55);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+}
+
+/* Image well behind packshots */
+@utility well {
+  background:
+    radial-gradient(110% 80% at 50% 30%, #fffaf2 0%, rgb(255 250 242 / 0) 60%),
+    var(--color-oat);
+}
+
+/* Soft cloud wash: layered blurred light, no image request */
+@utility cloud-wash {
+  background:
+    radial-gradient(60% 50% at 15% 10%, rgb(246 232 211 / 0.9) 0%, transparent 70%),
+    radial-gradient(50% 45% at 90% 20%, rgb(236 232 244 / 0.9) 0%, transparent 70%),
+    radial-gradient(70% 60% at 60% 100%, rgb(229 234 242 / 0.85) 0%, transparent 70%),
+    var(--color-milk);
+}
+
+/* The night sky — deep blue with a scatter of tiny stars (pure CSS) */
+@utility night-sky {
+  background-color: var(--color-night-900);
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgb(255 255 255 / 0.7) 50%, transparent 51%),
+    radial-gradient(1px 1px at 28% 72%, rgb(255 255 255 / 0.5) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 44% 34%, rgb(255 255 255 / 0.6) 50%, transparent 51%),
+    radial-gradient(1px 1px at 63% 12%, rgb(255 255 255 / 0.55) 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 58%, rgb(255 255 255 / 0.5) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 88% 26%, rgb(255 255 255 / 0.65) 50%, transparent 51%),
+    radial-gradient(1px 1px at 92% 84%, rgb(255 255 255 / 0.4) 50%, transparent 51%),
+    radial-gradient(1px 1px at 6% 88%, rgb(255 255 255 / 0.45) 50%, transparent 51%),
+    radial-gradient(80% 60% at 80% 0%, rgb(76 92 126 / 0.45) 0%, transparent 70%),
+    radial-gradient(60% 50% at 0% 100%, rgb(150 97 44 / 0.18) 0%, transparent 70%);
+}
+
+@utility prose-slumberlush {
+  font-size: var(--text-body);
+  line-height: 1.8;
+  color: var(--color-ink);
+  max-width: 68ch;
+  & > * + *,
+  & :where(h2, h3, p, ul, ol, aside, blockquote) + :where(h2, h3, p, ul, ol, aside, blockquote) {
+    margin-top: 1.15em;
+  }
+  & h2 {
+    font-family: var(--font-serif);
+    font-size: var(--text-heading-2);
+    line-height: var(--text-heading-2--line-height);
+    margin-top: 2.2em;
+    margin-bottom: 1em;
+    font-weight: 500;
+  }
+  & h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: var(--text-heading-3);
+    margin-top: 1.8em;
+    margin-bottom: 1em;
+  }
+  & ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  & ul > li {
+    position: relative;
+    padding-left: 1.5em;
+  }
+  & ul > li::before {
+    content: "";
+    position: absolute;
+    left: 0.25em;
+    top: 0.68em;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    box-shadow: inset -3px -1px 0 0 var(--color-honey-500);
+  }
+  & ol {
+    list-style: decimal;
+    padding-left: 1.4em;
+  }
+  & ol > li::marker {
+    color: var(--color-honey-600);
+    font-family: var(--font-serif);
+    font-weight: 600;
+  }
+  & li + li {
+    margin-top: 0.5em;
+  }
+  & a {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--color-honey-300);
+  }
+  & a:hover {
+    color: var(--color-dusk-700);
+    text-decoration-color: currentColor;
+  }
+  & strong {
+    font-weight: 700;
+  }
+  & table {
+    width: 100%;
+    font-size: var(--text-body-sm);
+  }
+  & td,
+  & th {
+    padding: 0.6em 0.8em;
+    text-align: left;
+  }
+  & tr:nth-child(odd) td {
+    background: var(--color-oat);
+  }
+}
+
+/* ── Buttons: pillows ─────────────────────────────────────────────────── */
+
+@layer components {
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline,
+  .btn-light,
+  .btn-quiet {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 54px;
+    padding: 0 1.9rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border-radius: 999px;
+    transition:
+      background-color 320ms var(--ease-out-soft),
+      color 320ms var(--ease-out-soft),
+      box-shadow 320ms var(--ease-out-soft),
+      transform 320ms var(--ease-out-soft);
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: radial-gradient(120% 140% at 30% 0%, var(--color-dusk-500) 0%, var(--color-dusk-600) 55%, var(--color-dusk-700) 100%);
+    color: var(--color-milk);
+    box-shadow: var(--shadow-pillow);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1.5px 0 rgb(255 255 255 / 0.3),
+      inset 0 -2px 6px rgb(0 0 0 / 0.12),
+      0 16px 30px -12px rgb(35 42 61 / 0.6);
+  }
+  .btn-primary:active {
+    transform: translateY(0) scale(0.985);
+  }
+  .btn-primary:disabled,
+  .btn-primary[aria-disabled="true"] {
+    background: var(--color-sand);
+    color: var(--color-ink-soft);
+    box-shadow: none;
+    transform: none;
+    cursor: not-allowed;
+  }
+  .btn-secondary,
+  .btn-outline {
+    background: var(--color-cloud);
+    color: var(--color-ink);
+    box-shadow: var(--shadow-soft), inset 0 0 0 1px rgb(60 44 26 / 0.08);
+  }
+  .btn-secondary:hover,
+  .btn-outline:hover {
+    box-shadow: var(--shadow-float), inset 0 0 0 1px rgb(60 44 26 / 0.12);
+  }
+  .btn-secondary:disabled,
+  .btn-outline:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .btn-light,
+  .btn-ghost-light {
+    background: rgb(255 253 250 / 0.14);
+    color: var(--color-milk);
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18), inset 0 0 0 1px rgb(255 255 255 / 0.12);
+  }
+  .btn-light:hover,
+  .btn-ghost-light:hover {
+    background: rgb(255 253 250 / 0.24);
+  }
+  /* Quiet: a text link with a soft underline that grows on hover */
+  .btn-quiet {
+    min-height: 44px;
+    padding: 0;
+    color: var(--color-ink);
+    border-radius: 0;
+  }
+  .btn-quiet::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    height: 1.5px;
+    border-radius: 2px;
+    background: var(--color-honey-300);
+    transform-origin: left;
+    transform: scaleX(0.4);
+    transition: transform 420ms var(--ease-out-soft), background-color 300ms;
+  }
+  .btn-quiet:hover::after {
+    transform: scaleX(1);
+    background: var(--color-ink);
+  }
+
+  .link-underline {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--color-honey-300);
+    transition: text-decoration-color 200ms;
+  }
+  .link-underline:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* Form fields: soft filled pills */
+  .field {
+    min-height: 54px;
+    width: 100%;
+    border-radius: 999px;
+    background: var(--color-cloud);
+    padding: 0 1.4rem;
+    box-shadow: inset 0 0 0 1px rgb(60 44 26 / 0.1), 0 1px 2px rgb(60 44 26 / 0.04);
+    transition: box-shadow 220ms var(--ease-out-soft);
+  }
+  textarea.field {
+    border-radius: 24px;
+    padding-block: 1rem;
+  }
+  .field::placeholder {
+    color: var(--color-ink-faint);
+  }
+  .field:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--color-dusk-600);
+  }
+
+  /* Selectable option (variant chips) — a soft pillow that presses in */
+  .option-card {
+    position: relative;
+    border-radius: 18px;
+    background: var(--color-cloud);
+    box-shadow: inset 0 0 0 1px rgb(60 44 26 / 0.1);
+    transition:
+      box-shadow 260ms var(--ease-out-soft),
+      background-color 260ms var(--ease-out-soft);
+  }
+  .option-card:hover {
+    box-shadow: inset 0 0 0 1px rgb(60 44 26 / 0.22);
+  }
+  .option-card[data-checked="true"] {
+    background: var(--color-dusk-50);
+    box-shadow:
+      inset 0 0 0 1.5px var(--color-dusk-600),
+      0 10px 24px -16px rgb(35 42 61 / 0.5);
+  }
+  .option-card[data-disabled="true"] {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px rgb(60 44 26 / 0.06);
+    color: var(--color-ink-faint);
+    cursor: not-allowed;
+  }
+}
+
+/* ── Motion ───────────────────────────────────────────────────────────── */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Scroll reveal — native scroll-driven animation, no JS */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+/* Hero entrance: transform only (never opacity) so text paints for LCP at once */
+@keyframes settle-in {
+  from {
+    transform: translateY(16px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-rise > * {
+    animation: settle-in 1100ms var(--ease-out-soft) both;
+  }
+  .hero-rise > *:nth-child(2) {
+    animation-delay: 90ms;
+  }
+  .hero-rise > *:nth-child(3) {
+    animation-delay: 180ms;
+  }
+  .hero-rise > *:nth-child(4) {
+    animation-delay: 270ms;
+  }
+  .hero-rise > *:nth-child(5) {
+    animation-delay: 360ms;
+  }
+}
+
+/* Breath — 12 s: in 4 s · hold 2 s · out 6 s */
+@keyframes breathe {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.75;
+  }
+  33% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.75;
+  }
+}
+@keyframes breath-in {
+  0%, 30% { opacity: 1; }
+  34%, 100% { opacity: 0; }
+}
+@keyframes breath-hold {
+  0%, 31% { opacity: 0; }
+  35%, 48% { opacity: 1; }
+  52%, 100% { opacity: 0; }
+}
+@keyframes breath-out {
+  0%, 49% { opacity: 0; }
+  53%, 96% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .breathe {
+    animation: breathe 12s var(--ease-in-out-soft) infinite;
+    will-change: transform;
+  }
+  .breath-in {
+    animation: breath-in 12s linear infinite;
+  }
+  .breath-hold {
+    animation: breath-hold 12s linear infinite;
+  }
+  .breath-out {
+    animation: breath-out 12s linear infinite;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .breath-hold,
+  .breath-out {
+    display: none;
+  }
+}
+
+/* Slow drift for floating details */
+@keyframes float-y {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .float-slow {
+    animation: float-y 7s var(--ease-in-out-soft) infinite;
+  }
+}
+
+/* Mega-menu entrance */
+@media (prefers-reduced-motion: no-preference) {
+  .mega-in {
+    animation: mega-in 460ms var(--ease-out-soft);
+  }
+}
+@keyframes mega-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.99);
+  }
+}
+
+/* Slow drift on still photos standing in for video clips */
+@media (prefers-reduced-motion: no-preference) {
+  .kenburns {
+    animation: kenburns 16s var(--ease-in-out-soft) infinite alternate;
+    will-change: transform;
+  }
+}
+@keyframes kenburns {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.14) translate3d(-2%, -2%, 0);
+  }
+}
+
+/* Infinite marquee (the list is rendered twice; -50% loops seamlessly) */
+@media (prefers-reduced-motion: no-preference) {
+  .marquee {
+    animation: marquee var(--marquee-duration, 40s) linear infinite;
+  }
+  .marquee-pause:hover .marquee {
+    animation-play-state: paused;
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Hover zoom on media inside a .group */
+.media-zoom {
+  transition: transform 1100ms var(--ease-out-soft);
+}
+@media (hover: hover) {
+  .group:hover .media-zoom {
+    transform: scale(1.04);
+  }
+}
+
+dialog.sheet {
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-milk);
+  color: var(--color-ink);
+  --sheet-in-from: 32px;
+}
+dialog.sheet[data-side="left"] {
+  --sheet-in-from: -32px;
+}
+dialog.sheet::backdrop {
+  background: rgb(23 27 42 / 0.4);
+  backdrop-filter: blur(8px);
+}
+@media (prefers-reduced-motion: no-preference) {
+  dialog.sheet[open] {
+    animation: sheet-in 420ms var(--ease-out-soft);
+  }
+  dialog.sheet[open]::backdrop {
+    animation: fade-in 420ms var(--ease-out-soft);
+  }
+}
+@keyframes sheet-in {
+  from {
+    transform: translateX(var(--sheet-in-from, 32px));
+    opacity: 0;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.snap-row {
+  display: grid;
+  grid-auto-flow: column;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.snap-row::-webkit-scrollbar {
+  display: none;
+}
+.snap-row > * {
+  scroll-snap-align: start;
+}
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
