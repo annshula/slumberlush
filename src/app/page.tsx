@@ -299,7 +299,7 @@ export default async function HomePage() {
         className="-mt-[calc(var(--header-h)+0.5rem)] sm:-mt-[calc(var(--header-h)+0.75rem)]"
         aria-labelledby="hero-title"
       >
-        <div className="cloud-wash relative flex min-h-svh flex-col overflow-hidden lg:h-svh">
+        <div className="cloud-wash relative flex min-h-[calc(100svh+0.5rem)] flex-col overflow-hidden sm:min-h-[calc(100svh+0.75rem)] lg:h-svh">
           {/* The film is the hero. Desktop uses the landscape cut (subject on
               the right, open sky on the left); phones use the portrait cut
               (open sky on top, subject in the lower half). The copy sits in the

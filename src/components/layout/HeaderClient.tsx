@@ -335,7 +335,7 @@ export function HeaderShell({ children }: { children: React.ReactNode }) {
         // phones, where a floating capsule reads as a widget).
         overHero
           ? "bg-transparent shadow-none"
-          : "bg-milk/95 shadow-float backdrop-blur-xl lg:max-w-[min(var(--page-max),calc(100vw-3rem))]",
+          : "bg-milk/95 shadow-[0_1px_0_rgb(60_44_26/0.08)] backdrop-blur-xl lg:shadow-float lg:max-w-[min(var(--page-max),calc(100vw-3rem))]",
       )}
     >
       {children}
