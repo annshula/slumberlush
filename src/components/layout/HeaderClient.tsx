@@ -313,9 +313,7 @@ function EditorialPanel({ group }: { group: NavGroup }) {
  * everywhere else it is always the glass bar.
  */
 export function HeaderShell({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const overHero = pathname === "/" && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -326,17 +324,14 @@ export function HeaderShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      data-over-hero={overHero || undefined}
+      data-header-bar
+      data-scrolled={scrolled || undefined}
       style={{ paddingInline: "var(--gutter)" }}
-      className={cn(
-        "relative mx-auto grid h-(--header-h) max-w-(--page-max) grid-cols-[1fr_auto_1fr] items-center gap-2 transition-[background-color,box-shadow,backdrop-filter,max-width] duration-700 ease-out-soft sm:gap-3 lg:gap-4 lg:rounded-full",
-        // Over the home hero: fully transparent — the bar is part of the hero.
-        // Elsewhere: a floating pillow of frosted milk glass (edge to edge on
-        // phones, where a floating capsule reads as a widget).
-        overHero
-          ? "bg-transparent shadow-none"
-          : "bg-milk/95 shadow-[0_1px_0_rgb(60_44_26/0.08)] backdrop-blur-xl lg:shadow-float lg:max-w-[min(var(--page-max),calc(100vw-3rem))]",
-      )}
+      // A floating pillow of frosted milk glass (edge to edge on phones, where
+      // a floating capsule reads as a widget). On the home hero, until the page
+      // scrolls, globals.css makes it transparent — in CSS, not JS, so the
+      // server HTML is already blended and never flashes the glass bar.
+      className="relative mx-auto grid h-(--header-h) max-w-(--page-max) grid-cols-[1fr_auto_1fr] items-center gap-2 bg-milk/95 shadow-[0_1px_0_rgb(60_44_26/0.08)] backdrop-blur-xl transition-[background-color,box-shadow,backdrop-filter,max-width] duration-700 ease-out-soft sm:gap-3 lg:max-w-[min(var(--page-max),calc(100vw-3rem))] lg:gap-4 lg:rounded-full lg:shadow-float"
     >
       {children}
     </div>

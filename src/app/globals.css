@@ -194,6 +194,15 @@
   }
 }
 
+/* The header bar is part of the home hero until the page scrolls. Unlayered on
+   purpose: it must beat the glass utilities on the bar. */
+body:has([data-home-hero]) [data-header-bar]:not([data-scrolled]) {
+  background-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  max-width: var(--page-max);
+}
+
 /* ── Base ─────────────────────────────────────────────────────────────── */
 
 @layer base {
