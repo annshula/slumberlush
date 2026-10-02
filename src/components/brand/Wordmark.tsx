@@ -10,8 +10,8 @@ import { cn } from "@/lib/utils";
  * files from the root masters with `node scripts/brand-assets.mjs`.
  */
 const LOGOS = {
-  dark: { src: "/brand/logo-sm.png", width: 480, height: 159 },
-  light: { src: "/brand/logo-white-sm.png", width: 480, height: 164 },
+  dark: { src: "/brand/logo-sm.png", width: 480, height: 161 },
+  light: { src: "/brand/logo-white-sm.png", width: 480, height: 161 },
 } as const;
 
 export function Wordmark({
